@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>python3-fizzbuzz</title>
+<!-- 2017-01-28 Sat 21:09 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="benrudgers" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">python3-fizzbuzz</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Introduction</a></li>
+<li><a href="#sec-2">2. Answer</a>
+<ul>
+<li><a href="#sec-2-1">2.1. Classic FizzBuzz</a></li>
+<li><a href="#sec-2-2">2.2. Arbitrary Fizzbuzz</a></li>
+<li><a href="#sec-2-3">2.3. Final Comments</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3. Appendix</a>
+<ul>
+<li>
+<ul>
+<li><a href="#sec-3-0-1">3.0.1. Code Generation</a></li>
+<li><a href="#sec-3-0-2">3.0.2. Document Generation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+This document is based on my answer to <a href="http://codereview.stackexchange.com/questions/153730/beginner-fizzbuzz-in-python/153879">this question</a> at <a href="https://codereview.stackexchange.com">https://codereview.stackexchange.com</a>.
+It is written in a literate programming style using Emacs org-mode.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Answer</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+There are many other good answers, so I will focus on performance since it is at the heart of the question.
+</p>
+</div>
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Classic FizzBuzz</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+The classic FizzBuzz uses the numbers 3 and 5 over the range 1 to 100. Since this is a constant, the best performance is simply to print the constant:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python">def fizzbuzz():
+     print("1\n\2\fizz\n4\n\buzz\n....")
+</pre>
+</div>
+
+
+<p>
+Because the fastest operation is one that is not performed (but only when performing it is not required).
+</p>
+
+<p>
+Of course the code is not very interesting in Python. The code for such an approach might be more interesting in a language that provides compile time calculations &#x2013; for example Lisp via its macro facility. The cost of more interesting code is often similar to that of execution optimizations: the code is harder to read and to understand.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Arbitrary Fizzbuzz</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+By 'arbitrary FizzBuzz' I mean that the values for 'fizz' and 'buzz' can be arbitrary (for some definition of 'arbitrary') as is the case in the question where values for fizz and buzz are supplied as arguments and not hard coded as in classic FizzBuzz. As is the case with Classic Fizzbuzz and problems in general, performance optimization of Arbitrary FizzBuzz requires tuning the code to take advantage of the structure of the problem in order to minimize the amount of work the computer has to do.
+</p>
+
+<p>
+The underlying arithmetic creates a structure that repeats:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python"># Classic FizzBuzz Cycle
+int, int, fizz, 
+int, buzz, fizz, 
+int, int, fizz, 
+buzz, int, fizz, 
+int, int, fizzbuzz
+</pre>
+</div>
+
+
+<p>
+And the location of a value within the Classic FizzBuzz cycle can be determined by:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python"># g(value) is a function that compensates
+# for potential off-by-one errors
+g(value) % 15
+</pre>
+</div>
+
+<p>
+**An Ugly First Implementation
+The main code is reasonably clean. Improvements related to `print()` are described in other answers, but I've ignored them to focus on the algorithmic abstractions rather than performance related to language implementation.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python" id="fizzbuzz">def fizzbuzz (fizz, buzz):
+    first = 1
+    last = 100
+    end = last + 1
+    cycle = fizzbuzz_cycle(fizz, buzz)
+    product = fizz * buzz
+    for val in range(first, end):
+        index = (val - 1) % product
+        if cycle[index]:
+            print (cycle[index])
+        else:
+            print (val)
+</pre>
+</div>
+
+
+<p>
+The key call is to the function `fizzbuzz<sub>cycle`</sub> which takes two numbers and returns a list.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python" id="fizzbuzz_cycle">def fizzbuzz_cycle (fizz, buzz):
+    """Generate a cycle of fizzes and buzzes and fizzbuzzes and False's"""
+    product = fizz * buzz
+    cycle = list(range(1, 1 + product))
+</pre>
+</div>
+
+
+<p>
+It contains three functions {`fb`, `f`, `b`} which take a number and either return that value or an appropriate string:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python" id="fb_f_b">def fb (v):
+    #This function checks for fizzbuzz
+    if v % product == 0:
+        return "fizzbuzz"
+    else: return v
+
+def f (v):
+   #This function checks for fizz        
+    if v % fizz == 0:
+        return "fizz"
+    else: return v
+
+def b (v):
+   #This function checks for buzz 
+    if v % buzz == 0:
+        return "buzz"
+    else: return v
+</pre>
+</div>
+
+
+<p>
+The three functions {`fb`, `f`, `b`} are used within the function `fizzbuzz<sub>fizz</sub><sub>buzz</sub><sub>or</sub><sub>False`</sub> which takes a value and returns either a string {'fizz', 'buzz', 'fizzbuzz'} or `False`. The big-hairy nested `if` is written to be more easily translated into a lower level language where {`fb`, `f`, `b`} could be inlined should additional optimization be sought.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python" id="fizzbuzz_fizz_buzz_or_False">def fizzbuzz_fizz_buzz_or_False (v):
+   #This function returns:
+   #fizzbuzz or fizz or buzz or False
+   fb_val = fb(v)
+   if fb_val == v:
+       f_val = f(v)
+       if f_val == v:
+           b_val = b(v)
+           if b_val == v:
+               return False
+           else:
+               return b_val
+       else:
+           return f_val
+   else:
+       return fb_val
+</pre>
+</div>
+
+
+<p>
+And we return `fizzbuzz<sub>fizz</sub><sub>buzz</sub><sub>or</sub><sub>False`</sub> mapped over the range of the cycle.    
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python" id="fizzbuzz_cycle_return">return list(map(fizzbuzz_fizz_buzz_or_False, cycle))
+</pre>
+</div>
+
+
+<p>
+Like I said, it ain't exactly pretty. Like I didn't say, this might be more efficient on paper but not in real life. Modern compilers do a lot of  sophisticated optimizations including JIT'ing at runtime, and CPU's that do predictive branching optimization. Therefore optimization should begin with measuring something that works and determining where the actual bottlenecks are. The other answers that optimize around `print()` are examples of why ideas about optimization are not always actual optimizations.
+</p>
+
+<p>
+On the other hand, the general approach of precomputing a cycle is applicable to other languages and other problems and the larger strategy of avoiding work is a good place to start changing code when measurements indicate changes are warranted.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Final Comments</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+I appreciate that the code in the question seeks to generalize the problem by tackling the 'Arbitrary FizzBuzz'. I also like that all of the modulo's are done in one place&#x2026;one of the optimizations that are built into Python is optimizing development time. 
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Appendix</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-0-1" class="outline-4">
+<h4 id="sec-3-0-1"><span class="section-number-4">3.0.1</span> Code Generation</h4>
+<div class="outline-text-4" id="text-3-0-1">
+<p>
+Run <code>M-x org-babel-tangle</code> to generate source in the file <code>fizzbuzz.py</code>.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python">def fizzbuzz_cycle (fizz, buzz):
+    """Generate a cycle of fizzes and buzzes and fizzbuzzes and False's"""
+    product = fizz * buzz
+    cycle = list(range(1, 1 + product))    
+
+  def fb (v):
+      #This function checks for fizzbuzz
+      if v % product == 0:
+          return "fizzbuzz"
+      else: return v
+
+  def f (v):
+     #This function checks for fizz        
+      if v % fizz == 0:
+          return "fizz"
+      else: return v
+
+  def b (v):
+     #This function checks for buzz 
+      if v % buzz == 0:
+          return "buzz"
+      else: return v
+
+  def fizzbuzz_fizz_buzz_or_False (v):
+     #This function returns:
+     #fizzbuzz or fizz or buzz or False
+     fb_val = fb(v)
+     if fb_val == v:
+         f_val = f(v)
+         if f_val == v:
+             b_val = b(v)
+             if b_val == v:
+                 return False
+             else:
+                 return b_val
+         else:
+             return f_val
+     else:
+         return fb_val
+
+  return list(map(fizzbuzz_fizz_buzz_or_False, cycle))
+
+def fizzbuzz (fizz, buzz):
+    first = 1
+    last = 100
+    end = last + 1
+    cycle = fizzbuzz_cycle(fizz, buzz)
+    product = fizz * buzz
+    for val in range(first, end):
+        index = (val - 1) % product
+        if cycle[index]:
+            print (cycle[index])
+        else:
+            print (val)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-0-2" class="outline-4">
+<h4 id="sec-3-0-2"><span class="section-number-4">3.0.2</span> Document Generation</h4>
+<div class="outline-text-4" id="text-3-0-2">
+<ol class="org-ol">
+<li>The output for this file is <code>fizzbuzz.py</code>.
+</li>
+<li>The web page for this file is <code>index.html</code>. It is structured to work with Github pages.
+</li>
+<li>To generate these files, navigate into the source block and use <code>M-x org-babel-execute-src-block</code>. 
+</li>
+</ol>
+<div class="org-src-container">
+
+<pre class="src src-elisp" id="generate-files">;; label for search: qqz
+;; generate general-problem-solver.lisp
+(org-babel-tangle)
+;; generate docs/index.html
+(org-html-export-as-html)
+(save-current-buffer
+  (set-buffer "*Org HTML Export*")
+  (write-file "index.html")
+  (kill-buffer))
+(concat "Files Generated: " (current-time-string))
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: benrudgers</p>
+<p class="date">Created: 2017-01-28 Sat 21:09</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

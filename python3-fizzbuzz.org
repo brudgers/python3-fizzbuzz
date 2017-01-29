@@ -1,0 +1,161 @@
+* Introduction
+This document is based on my answer to [[http://codereview.stackexchange.com/questions/153730/beginner-fizzbuzz-in-python/153879][this question]] at https://codereview.stackexchange.com.
+It is written in a literate programming style using Emacs org-mode.
+* Answer
+There are many other good answers, so I will focus on performance since it is at the heart of the question.
+** Classic FizzBuzz
+The classic FizzBuzz uses the numbers 3 and 5 over the range 1 to 100. Since this is a constant, the best performance is simply to print the constant:
+#+BEGIN_SRC python :tangle no
+  def fizzbuzz():
+       print("1\n\2\fizz\n4\n\buzz\n....")
+#+END_SRC
+   
+
+Because the fastest operation is one that is not performed (but only when performing it is not required).
+
+Of course the code is not very interesting in Python. The code for such an approach might be more interesting in a language that provides compile time calculations -- for example Lisp via its macro facility. The cost of more interesting code is often similar to that of execution optimizations: the code is harder to read and to understand.
+
+** Arbitrary Fizzbuzz
+By 'arbitrary FizzBuzz' I mean that the values for 'fizz' and 'buzz' can be arbitrary (for some definition of 'arbitrary') as is the case in the question where values for fizz and buzz are supplied as arguments and not hard coded as in classic FizzBuzz. As is the case with Classic Fizzbuzz and problems in general, performance optimization of Arbitrary FizzBuzz requires tuning the code to take advantage of the structure of the problem in order to minimize the amount of work the computer has to do.
+
+The underlying arithmetic creates a structure that repeats:
+#+BEGIN_SRC python :tangle no
+  # Classic FizzBuzz Cycle
+  int, int, fizz, 
+  int, buzz, fizz, 
+  int, int, fizz, 
+  buzz, int, fizz, 
+  int, int, fizzbuzz
+#+END_SRC
+
+
+And the location of a value within the Classic FizzBuzz cycle can be determined by:
+#+BEGIN_SRC python :tangle no
+  # g(value) is a function that compensates
+  # for potential off-by-one errors
+  g(value) % 15
+#+END_SRC
+
+**An Ugly First Implementation
+The main code is reasonably clean. Improvements related to `print()` are described in other answers, but I've ignored them to focus on the algorithmic abstractions rather than performance related to language implementation.
+#+NAME: fizzbuzz
+#+BEGIN_SRC python :tangle yes
+  def fizzbuzz (fizz, buzz):
+      first = 1
+      last = 100
+      end = last + 1
+      cycle = fizzbuzz_cycle(fizz, buzz)
+      product = fizz * buzz
+      for val in range(first, end):
+          index = (val - 1) % product
+          if cycle[index]:
+              print (cycle[index])
+          else:
+              print (val)
+#+END_SRC
+
+
+The key call is to the function `fizzbuzz_cycle` which takes two numbers and returns a list.
+#+NAME: fizzbuzz_cycle
+#+BEGIN_SRC python :tangle yes
+  def fizzbuzz_cycle (fizz, buzz):
+      """Generate a cycle of fizzes and buzzes and fizzbuzzes and False's"""
+      product = fizz * buzz
+      cycle = list(range(1, 1 + product))    
+#+END_SRC
+
+
+It contains three functions {`fb`, `f`, `b`} which take a number and either return that value or an appropriate string:
+#+NAME: fb_f_b
+#+BEGIN_SRC python :tangle yes
+  def fb (v):
+      #This function checks for fizzbuzz
+      if v % product == 0:
+          return "fizzbuzz"
+      else: return v
+      
+  def f (v):
+     #This function checks for fizz        
+      if v % fizz == 0:
+          return "fizz"
+      else: return v
+      
+  def b (v):
+     #This function checks for buzz 
+      if v % buzz == 0:
+          return "buzz"
+      else: return v
+#+END_SRC   
+
+
+The three functions {`fb`, `f`, `b`} are used within the function `fizzbuzz_fizz_buzz_or_False` which takes a value and returns either a string {'fizz', 'buzz', 'fizzbuzz'} or `False`. The big-hairy nested `if` is written to be more easily translated into a lower level language where {`fb`, `f`, `b`} could be inlined should additional optimization be sought.
+#+NAME: fizzbuzz_fizz_buzz_or_False
+#+BEGIN_SRC python :tangle yes
+        def fizzbuzz_fizz_buzz_or_False (v):
+           #This function returns:
+           #fizzbuzz or fizz or buzz or False
+           fb_val = fb(v)
+           if fb_val == v:
+               f_val = f(v)
+               if f_val == v:
+                   b_val = b(v)
+                   if b_val == v:
+                       return False
+                   else:
+                       return b_val
+               else:
+                   return f_val
+           else:
+               return fb_val
+#+END_SRC   
+
+
+And we return `fizzbuzz_fizz_buzz_or_False` mapped over the range of the cycle.    
+#+NAME: fizzbuzz_cycle_return
+#+BEGIN_SRC python
+  return list(map(fizzbuzz_fizz_buzz_or_False, cycle))
+#+END_SRC
+
+
+Like I said, it ain't exactly pretty. Like I didn't say, this might be more efficient on paper but not in real life. Modern compilers do a lot of  sophisticated optimizations including JIT'ing at runtime, and CPU's that do predictive branching optimization. Therefore optimization should begin with measuring something that works and determining where the actual bottlenecks are. The other answers that optimize around `print()` are examples of why ideas about optimization are not always actual optimizations.
+
+On the other hand, the general approach of precomputing a cycle is applicable to other languages and other problems and the larger strategy of avoiding work is a good place to start changing code when measurements indicate changes are warranted.
+
+** Final Comments
+I appreciate that the code in the question seeks to generalize the problem by tackling the 'Arbitrary FizzBuzz'. I also like that all of the modulo's are done in one place...one of the optimizations that are built into Python is optimizing development time. 
+
+* Appendix
+*** Code Generation
+Run =M-x org-babel-tangle= to generate source in the file =fizzbuzz.py=.
+#+BEGIN_SRC python :tangle fizzbuzz.py :noweb yes
+  <<fizzbuzz_cycle>>
+
+    <<fb_f_b>>
+
+    <<fizzbuzz_fizz_buzz_or_False>>
+
+    <<fizzbuzz_cycle_return>>
+
+  <<fizzbuzz>> 
+#+END_SRC
+*** Document Generation
+1. The output for this file is =fizzbuzz.py=.
+2. The web page for this file is =index.html=. It is structured to work with Github pages.
+3. To generate these files, navigate into the source block and use =M-x org-babel-execute-src-block=. 
+#+NAME: generate-files
+#+BEGIN_SRC elisp
+  ;; label for search: qqz
+  ;; generate general-problem-solver.lisp
+  (org-babel-tangle)
+  ;; generate docs/index.html
+  (org-html-export-as-html)
+  (save-current-buffer
+    (set-buffer "*Org HTML Export*")
+    (write-file "index.html")
+    (kill-buffer))
+  (concat "Files Generated: " (current-time-string))
+#+END_SRC 
+
+#+RESULTS: generate-files
+: Files Generated: Sat Jan 28 21:09:43 2017
+
