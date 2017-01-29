@@ -36,8 +36,8 @@ And the location of a value within the Classic FizzBuzz cycle can be determined 
   g(value) % 15
 #+END_SRC
 
-**An Ugly First Implementation
-The main code is reasonably clean. Improvements related to `print()` are described in other answers, but I've ignored them to focus on the algorithmic abstractions rather than performance related to language implementation.
+** An Ugly First Implementation
+The main code is reasonably clean. Improvements related to =print()= are described in other answers, but I've ignored them to focus on the algorithmic abstractions rather than performance related to language implementation.
 #+NAME: fizzbuzz
 #+BEGIN_SRC python :tangle yes
   def fizzbuzz (fizz, buzz):
@@ -55,7 +55,7 @@ The main code is reasonably clean. Improvements related to `print()` are describ
 #+END_SRC
 
 
-The key call is to the function `fizzbuzz_cycle` which takes two numbers and returns a list.
+The key call is to the function =fizzbuzz_cycle= which takes two numbers and returns a list.
 #+NAME: fizzbuzz_cycle
 #+BEGIN_SRC python :tangle yes
   def fizzbuzz_cycle (fizz, buzz):
@@ -65,7 +65,7 @@ The key call is to the function `fizzbuzz_cycle` which takes two numbers and ret
 #+END_SRC
 
 
-It contains three functions {`fb`, `f`, `b`} which take a number and either return that value or an appropriate string:
+It contains three functions {=fb=, =f=, =b=} which take a number and either return that value or an appropriate string:
 #+NAME: fb_f_b
 #+BEGIN_SRC python :tangle yes
   def fb (v):
@@ -88,7 +88,7 @@ It contains three functions {`fb`, `f`, `b`} which take a number and either retu
 #+END_SRC   
 
 
-The three functions {`fb`, `f`, `b`} are used within the function `fizzbuzz_fizz_buzz_or_False` which takes a value and returns either a string {'fizz', 'buzz', 'fizzbuzz'} or `False`. The big-hairy nested `if` is written to be more easily translated into a lower level language where {`fb`, `f`, `b`} could be inlined should additional optimization be sought.
+The three functions {=fb=, =f=, =b=} are used within the function =fizzbuzz_fizz_buzz_or_False= which takes a value and returns either a string {'fizz', 'buzz', 'fizzbuzz'} or =False=. The big-hairy nested =if= is written to be more easily translated into a lower level language where {=fb=, =f=, =b=} could be inlined should additional optimization be sought.
 #+NAME: fizzbuzz_fizz_buzz_or_False
 #+BEGIN_SRC python :tangle yes
         def fizzbuzz_fizz_buzz_or_False (v):
@@ -110,14 +110,14 @@ The three functions {`fb`, `f`, `b`} are used within the function `fizzbuzz_fizz
 #+END_SRC   
 
 
-And we return `fizzbuzz_fizz_buzz_or_False` mapped over the range of the cycle.    
+And we return =fizzbuzz_fizz_buzz_or_False= mapped over the range of the cycle.    
 #+NAME: fizzbuzz_cycle_return
 #+BEGIN_SRC python
   return list(map(fizzbuzz_fizz_buzz_or_False, cycle))
 #+END_SRC
 
 
-Like I said, it ain't exactly pretty. Like I didn't say, this might be more efficient on paper but not in real life. Modern compilers do a lot of  sophisticated optimizations including JIT'ing at runtime, and CPU's that do predictive branching optimization. Therefore optimization should begin with measuring something that works and determining where the actual bottlenecks are. The other answers that optimize around `print()` are examples of why ideas about optimization are not always actual optimizations.
+Like I said, it ain't exactly pretty. Like I didn't say, this might be more efficient on paper but not in real life. Modern compilers do a lot of  sophisticated optimizations including JIT'ing at runtime, and CPU's that do predictive branching optimization. Therefore optimization should begin with measuring something that works and determining where the actual bottlenecks are. The other answers that optimize around =print()= are examples of why ideas about optimization are not always actual optimizations.
 
 On the other hand, the general approach of precomputing a cycle is applicable to other languages and other problems and the larger strategy of avoiding work is a good place to start changing code when measurements indicate changes are warranted.
 
@@ -126,8 +126,8 @@ I appreciate that the code in the question seeks to generalize the problem by ta
 
 * Appendix
 *** Code Generation
-Run =M-x org-babel-tangle= to generate source in the file =fizzbuzz.py=.
-#+BEGIN_SRC python :tangle fizzbuzz.py :noweb yes
+Run =M-x org-babel-tangle= to generate the source code.
+#+BEGIN_SRC python :tangle yes :noweb yes
   <<fizzbuzz_cycle>>
 
     <<fb_f_b>>
@@ -139,9 +139,8 @@ Run =M-x org-babel-tangle= to generate source in the file =fizzbuzz.py=.
   <<fizzbuzz>> 
 #+END_SRC
 *** Document Generation
-1. The output for this file is =fizzbuzz.py=.
-2. The web page for this file is =index.html=. It is structured to work with Github pages.
-3. To generate these files, navigate into the source block and use =M-x org-babel-execute-src-block=. 
+1. The web page for this file is =index.html=. It is structured to work with Github pages.
+2. To generate these files, navigate into the source block and use =M-x org-babel-execute-src-block=. 
 #+NAME: generate-files
 #+BEGIN_SRC elisp
   ;; label for search: qqz
@@ -157,5 +156,5 @@ Run =M-x org-babel-tangle= to generate source in the file =fizzbuzz.py=.
 #+END_SRC 
 
 #+RESULTS: generate-files
-: Files Generated: Sat Jan 28 21:09:43 2017
+: Files Generated: Sat Jan 28 21:25:45 2017
 
